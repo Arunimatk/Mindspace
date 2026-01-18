@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mood Dashboard</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #df6cc6, #a854e9);
+      min-height: 100vh;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin-top: 40px;
+      margin-bottom: 80px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 32px;
+      font-weight: 600;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.15);
+      padding: 22px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .card p {
+      font-size: 26px;
+      margin: 10px 0 0;
+      font-weight: bold;
+    }
+
+    .chart-box {
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .selected-mood-box {
+      margin-bottom: 25px;
+      font-size: 22px;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 1px;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+    /* Floating Chatbot Button */
+    .chatbot-float {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #ffffff;
+      color: #4f79e8;
+      font-size: 28px;
+      padding: 15px;
+      border-radius: 50%;
+      text-decoration: none;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+      transition: 0.3s;
+      font-weight: bold;
+      z-index: 100;
+    }
+
+    .chatbot-float:hover {
+      transform: scale(1.1);
+    }
+
+    /* Wellness Button */
+    .wellness-float {
+      position: fixed;
+      bottom: 100px;
+      right: 25px;
+      background: #2ed573;
+      color: white;
+      font-size: 28px;
+      padding: 15px;
+      border-radius: 50%;
+      text-decoration: none;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+      transition: 0.3s;
+      font-weight: bold;
+      z-index: 100;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wellness-float:hover {
+      transform: scale(1.1);
+    }
+
+    /* Journal Section */
+    .journal-section {
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .journal-form {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 25px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .journal-form input,
+    .journal-form textarea,
+    .journal-form select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+
+    .journal-form button {
+      background: #ff6600;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .journal-form button:hover {
+      background: #ff0077;
+    }
+
+    .entry-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 15px;
+      backdrop-filter: blur(5px);
+    }
+
+    .entry-date {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-bottom: 5px;
+    }
+
+    .entry-mood {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h2>Mind Space Dashboard</h2>
+
+    <!-- Mood from previous page -->
+    <div class="selected-mood-box" id="moodText">
+      Loading your mood...
+    </div>
+
+    <!-- Percentage Cards -->
+    <div class="cards">
+      <div class="card">
+        <h3>Happy</h3>
+        <p>45%</p>
+      </div>
+      <div class="card">
+        <h3>Sad</h3>
+        <p>25%</p>
+      </div>
+      <div class="card">
+        <h3>Anxious</h3>
+        <p>20%</p>
+      </div>
+      <div class="card">
+        <h3>Stressed</h3>
+        <p>10%</p>
+      </div>
+    </div>
+
+    <!-- Line Chart -->
+    <div class="chart-box">
+      <canvas id="moodChart"></canvas>
+    </div>
+
+    <!-- Journal Section -->
+    <div class="journal-section">
+      <h3>My Private Journal</h3>
+
+      <form action="{% url 'add_journal_entry' %}" method="POST" class="journal-form">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Title of your memory..." required>
+        <select name="mood">
+          <option value="" disabled selected>How do you feel?</option>
+          <option value="Happy">Happy 😊</option>
+          <option value="Sad">Sad 😔</option>
+          <option value="Anxious">Anxious 😰</option>
+          <option value="Stressed">Stressed 😫</option>
+          <option value="Calm">Calm 😌</option>
+        </select>
+        <textarea name="content" rows="4" placeholder="Write your thoughts here..." required></textarea>
+        <button type="submit">Save Entry</button>
+      </form>
+
+      <div class="journal-entries">
+        {% for entry in entries %}
+        <div class="entry-card">
+          <div class="entry-date">{{ entry.created_at|date:"F d, Y, P" }}</div>
+          {% if entry.mood %}
+          <div class="entry-mood">Matches mood: {{ entry.mood }}</div>
+          {% endif %}
+          <h4>{{ entry.title }}</h4>
+          <p>{{ entry.content|linebreaks }}</p>
+        </div>
+        {% empty %}
+        <p style="text-align: center; opacity: 0.8;">No journal entries yet. Start writing today!</p>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Floating Chat Button (Original Link) -->
+  <a href="{% url 'chatbot_page' %}" class="chatbot-float">💬Hi!?</a>
+
+  <!-- Wellness Button -->
+  <a href="{% url 'wellness_hub' %}" class="wellness-float">🌿</a>
+
+  <script>
+    // Show selected mood
+    const mood = localStorage.getItem("selectedMood") || "No mood selected";
+    document.getElementById("moodText").innerText = "Today's Mood: " + mood;
+
+    // Line Chart
+    const ctx = document.getElementById("moodChart").getContext("2d");
+
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        datasets: [
+          {
+            label: "Happy",
+            data: [40, 50, 45, 55, 60, 50, 70],
+            borderColor: "#FFD166",
+            backgroundColor: "transparent",
+            borderWidth: 3,
+            tension: 0.4
+          },
+          {
+            label: "Sad",
+            data: [30, 25, 20, 30, 35, 40, 38],
+            borderColor: "#EF476F",
+            backgroundColor: "transparent",
+            borderWidth: 3,
+            tension: 0.4
+          },
+          {
+            label: "Anxious",
+            data: [20, 22, 25, 18, 17, 25, 28],
+            borderColor: "#06D6A0",
+            backgroundColor: "transparent",
+            borderWidth: 3,
+            tension: 0.4
+          },
+          {
+            label: "Stressed",
+            data: [10, 15, 12, 20, 18, 22, 19],
+            borderColor: "#118AB2",
+            backgroundColor: "transparent",
+            borderWidth: 3,
+            tension: 0.4
+          }
+        ]
+      },
+
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: { color: "#fff" }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: "#fff" }
+          },
+          y: {
+            ticks: { color: "#fff" }
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>

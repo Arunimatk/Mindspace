@@ -1,0 +1,278 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindSpace - Beautiful Landing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background: rgba(219, 138, 195, 0.7);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(5px);
+    }
+    .navbar h2 {
+      color: white;
+      margin: 0;
+    }
+    .navbar a {
+      padding: 10px 20px;
+      border-radius: 20px;
+      background: #ec7ac6ff;
+      color: white;
+      text-decoration: none;
+      transition: .3s;
+      margin-left: 10px;
+    }
+    .navbar a:hover,
+    .navbar a.active {
+      background: #ff0077;
+      transform: scale(1.1);
+    }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      margin-top: 80px;
+
+      background:
+        linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+        url("{% static 'mindspaceapp/images/Zen_2_Small_ff4aa02c-dd6c-4e13-a7c2-cb52a1544627_1400x.webp' %}")
+        no-repeat center / cover;
+
+      padding: 0 20px;
+    }
+    .hero h1 {
+      font-size: 3.2rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      opacity: .8;
+    }
+
+    /* BUTTON */
+    .btn {
+      padding: 12px 30px;
+      background: linear-gradient(135deg, #ff6600, #ff0077);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      display: inline-block;
+      margin-top: 20px;
+      transition: .3s;
+      box-shadow: 0px 5px 20px rgba(255,0,120,.3);
+    }
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* FADE ANIMATION */
+    .section {
+      padding: 100px 40px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(80px);
+      transition: all 1s ease;
+    }
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ABOUT */
+    #about { background: #f1bbdfff; }
+
+    /* FEATURES SECTION */
+    #features {
+      background: white;
+      padding: 80px 20px;
+    }
+    .feature-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .feature-card {
+      width: 270px;
+      background: #c2e6f7ff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 5px 25px rgba(0,0,0,.1);
+      transition: .3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0px 10px 35px rgba(0,0,0,.15);
+    }
+    .feature-icon {
+      font-size: 45px;
+      color: #ff6600;
+      margin-bottom: 15px;
+    }
+
+    /* TESTIMONIALS */
+    #testimonials {
+      background: #ffe0f3;
+      padding: 80px 20px;
+    }
+    .testimonial-box {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      font-style: italic;
+      box-shadow: 0px 5px 25px rgba(0,0,0,.1);
+    }
+    .testimonial-name {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    /* CONTACT */
+    #contact { background: #dfe8ff; }
+
+    /* FOOTER */
+    .footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <h2>MindSpace</h2>
+    <div>
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#testimonials" class="nav-link">Reviews</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div>
+      <h1>Welcome to MindSpace</h1>
+      <p>Your colorful personal journal to relax and express freely.</p>
+      <a href="{% url 'login' %}" class="btn">Start Writing</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <h1>About Us</h1>
+    <p>MindSpace is a peaceful digital space where your thoughts flow freely.</p>
+    <p>Designed for writing lovers who enjoy beauty, calmness, and expression.</p>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="section">
+    <h1>Features</h1>
+
+    <div class="feature-container">
+
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3>Mind Relaxing UI</h3>
+        <p>Soft colors and smooth design make writing peaceful.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <h3>Beautiful Themes</h3>
+        <p>Choose different theme styles to match your mood.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔐</div>
+        <h3>Secure Notes</h3>
+        <p>Your memories stay private and protected.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Daily Journal</h3>
+        <p>Write every day and track your growth.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="section">
+    <h1>What Users Say</h1>
+    <div class="testimonial-box">
+      “MindSpace changed my daily writing habit.  
+      Beautiful, simple, and relaxing!”  
+      <div class="testimonial-name">– A happy user ❤️</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <h1>Contact Us</h1>
+    <p>Email: support@mindspace.com</p>
+    <p>Instagram: @mindspace</p>
+    <p>We love hearing from you ❤️</p>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    © 2025 MindSpace | All Rights Reserved
+  </div>
+
+  <!-- ANIMATION SCRIPT -->
+  <script>
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+      sections.forEach(sec => {
+        const pos = sec.getBoundingClientRect().top;
+        if (pos < window.innerHeight - 150) {
+          sec.classList.add('visible');
+        }
+      });
+    });
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
