@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mind Space – Track Your Mood</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, rgba(255, 183, 197, 0.6), rgba(135, 206, 250, 0.6)),
+      url("{% static 'mindspaceapp/images/images4.jpg' %}") no-repeat center center/cover;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 50px;
+      border-radius: 25px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 36px;
+      letter-spacing: 2px;
+      margin-bottom: 40px;
+      font-weight: 700;
+      color: #ff5e79;
+      /* bright accent color */
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 25px;
+      margin-bottom: 35px;
+    }
+
+    .card {
+      padding: 30px 20px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.4s ease;
+      backdrop-filter: blur(10px);
+      color: #fff;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.05);
+      background: rgba(255, 255, 255, 0.35);
+      border-color: #ff5e79;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .emoji {
+      font-size: 60px;
+      margin-bottom: 15px;
+    }
+
+    .tools-title {
+      font-size: 26px;
+      margin: 30px 0 20px 0;
+      text-align: center;
+      font-weight: 700;
+      color: #ff5e79;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn {
+      padding: 12px 22px;
+      margin-top: 15px;
+      background: #ff5e79;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      transition: 0.3s;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background: #ff8393;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+        width: 95%;
+      }
+
+      h2 {
+        font-size: 28px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr 1fr;
+        /* 2 columns on mobile */
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h2>TRACK YOUR MOOD</h2>
+
+    <div class="grid">
+      <div class="card" id="happyMood">
+        <div class="emoji">😁</div>HAPPY
+      </div>
+      <div class="card" id="sadMood">
+        <div class="emoji">☹️</div>SAD
+      </div>
+      <div class="card" id="anxiousMood">
+        <div class="emoji">😟</div>ANXIOUS
+      </div>
+      <div class="card" id="stressedMood">
+        <div class="emoji">😰</div>STRESSED
+      </div>
+    </div>
+
+    <div class="tools-title">✨ Relaxing Tools For You</div>
+
+    <div class="grid">
+      <div class="card" onclick="openMusic()">🎵<br><b>Music Therapy</b>
+        <div class="btn">Play Calm Music</div>
+      </div>
+      <div class="card" onclick="openBreathing()">🌬️<br><b>Breathing Exercise</b>
+        <div class="btn">Start</div>
+      </div>
+      <div class="card" onclick="openQuotes()">💬<br><b>Motivational Quotes</b>
+        <div class="btn">Show Quote</div>
+      </div>
+      <div class="card" onclick="openGame()">🕹️<br><b>Mini Relax Game</b>
+        <div class="btn">Play Now</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // mood redirects
+    const moods = ["happy", "sad", "anxious", "stressed"];
+    moods.forEach(m => {
+      document.getElementById(m + "Mood").addEventListener("click", function () {
+        localStorage.setItem("selectedMood", m.toUpperCase());
+        window.location.href = "{% url 'pdashboard' %}"
+      });
+    });
+
+    // tools
+    function openMusic() {
+      alert("🎵 Playing calm music...");
+      window.open("https://www.youtube.com/watch?v=2OEL4P1Rz04", "_blank");
+    }
+
+    function openBreathing() {
+      alert("🌬️ Inhale… Exhale… Follow the circle!");
+      window.open("https://breathing-exercise.vercel.app/", "_blank");
+    }
+
+    function openQuotes() {
+      const quotes = [
+        "You are stronger than you think.",
+        "Every day is a new beginning.",
+        "Your feelings are valid.",
+        "You can handle anything."
+      ];
+      alert(quotes[Math.floor(Math.random() * quotes.length)]);
+    }
+
+    function openGame() {
+      alert("🎮 Enjoy a relaxing bubble-popping game!");
+      window.open("https://www.coolmathgames.com/0-bubble-spinner", "_blank");
+    }
+  </script>
+
+</body>
+
+</html>
