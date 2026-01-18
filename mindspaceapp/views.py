@@ -90,6 +90,33 @@ def add_journal_entry(request):
 def wellness_hub_view(request):
     return render(request, 'wellness_hub.html')
 
+
 def connect_doctor_view(request):
     return render(request, 'connect_doctor.html')
+
+
+from .models import Doctor, Appointment
+
+def urgent_doctors_view(request):
+    # Fetch doctors marked as 'Urgent Care'
+    doctors = Doctor.objects.filter(is_urgent_care=True)
+    return render(request, 'urgent_doctors.html', {'doctors': doctors})
+
+def book_appointment(request, doctor_id):
+    if request.method == "POST":
+        user_id = request.session.get('user_id')
+        if not user_id:
+            return redirect('login')
+        
+        doctor = Doctor.objects.get(id=doctor_id)
+        date_time = request.POST.get('date_time')
+        
+        Appointment.objects.create(
+            user_id=user_id,
+            doctor=doctor,
+            date_time=date_time
+        )
+        messages.success(request, f"Appointment confirmed with {doctor.name}!")
+        return redirect('pdashboard')
+    return redirect('urgent_doctors')
 
