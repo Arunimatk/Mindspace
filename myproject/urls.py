@@ -31,5 +31,7 @@ urlpatterns = [
     path('pdashboard/chatbot/', include('chatbot.urls')),
     path('wellness/', views.wellness_hub_view, name='wellness_hub'),
     path('connect-doctor/', views.connect_doctor_view, name='connect_doctor'),
+    path('urgent_doctors/', views.urgent_doctors_view, name='urgent_doctors'),
+    path('book_appointment/<int:doctor_id>/', views.book_appointment, name='book_appointment'),
 
 ]
