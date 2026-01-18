@@ -1,41 +1,107 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mind Space - Sign Up</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
-    * {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
     body {
-      height:100vh;
+      height: 100vh;
       background:url("{% static 'mindspaceapp/images/image2.webp'%}") no-repeat center center/cover;
-      display:flex;align-items:center;justify-content:center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .overlay {position:absolute;top:0;left:0;height:100%;width:100%;background:rgba(0,0,0,0.4);z-index:-1;}
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: -1;
+    }
+
     .signup-container {
-      background:rgba(255,255,255,0.9);
-      padding:40px;border-radius:15px;
-      box-shadow:0 8px 20px rgba(0,0,0,0.2);
-      width:350px;text-align:center;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 350px;
+      width: 90%;
+      text-align: center;
     }
-    .signup-container h2 {margin-bottom:20px;font-size:28px;font-weight:700;color:#333;}
+
+    .signup-container h2 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+    }
+
     .signup-container input {
-      width:100%;padding:12px;margin:10px 0;
-      border:none;border-radius:8px;outline:none;background:#f1f1f1;font-size:14px;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background: #f1f1f1;
+      font-size: 14px;
     }
-    .signup-container input:focus {border:2px solid #2779af;background:#fff;}
+
+    .signup-container input:focus {
+      border: 2px solid #2779af;
+      background: #fff;
+    }
+
     .signup-container button {
-      width:100%;padding:12px;margin-top:15px;border:none;border-radius:8px;
-      background:#2b8d78;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;transition:0.3s;
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #2b8d78;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
     }
-    .signup-container button:hover {background:#2eada3;}
-    .signup-container p {margin-top:15px;font-size:14px;color:#555;}
-    .signup-container a {color:#3bafa9;font-weight:600;text-decoration:none;}
-    .signup-container a:hover {text-decoration:underline;}
+
+    .signup-container button:hover {
+      background: #2eada3;
+    }
+
+    .signup-container p {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .signup-container a {
+      color: #3bafa9;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .signup-container a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
+
 <body>
   <div class="overlay"></div>
   <div class="signup-container">
@@ -55,5 +121,5 @@
     <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
   </div>
 </body>
-</html>
 
+</html>
