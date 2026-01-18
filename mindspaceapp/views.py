@@ -6,17 +6,26 @@ from django.contrib import messages
 def home(request):
     return render(request, 'frontpage.html')
 
+from django.db import IntegrityError
+
 def user_register(request):
     if request.method == "POST":
-        user = UserModel(
-            name=request.POST.get('name'),
-            password=request.POST.get('password'),
-            email=request.POST.get('email'),
-            age=request.POST.get('age'),
-            phone=request.POST.get('phone')
-        )
-        user.save()
-        return redirect('login')
+        try:
+            user = UserModel(
+                name=request.POST.get('name'),
+                password=request.POST.get('password'),
+                email=request.POST.get('email'),
+                age=request.POST.get('age'),
+                phone=request.POST.get('phone')
+            )
+            user.save()
+            messages.success(request, "Registration successful! Please login.")
+            return redirect('login')
+        except IntegrityError:
+            messages.error(request, "Email already exists.")
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+            
     return render(request, 'register.html')
 
 
