@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urgent Care - Mindspace</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fce8e8;
+            /* Light red/pink background for urgency */
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.1);
+        }
+
+        .emergency-icon {
+            font-size: 60px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #d32f2f;
+            margin: 10px 0;
+        }
+
+        .doctor-card {
+            background: white;
+            border-left: 5px solid #d32f2f;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .doctor-info h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .doctor-info p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .book-btn {
+            background-color: #d32f2f;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .book-btn:hover {
+            background-color: #b71c1c;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            margin: 100px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <div class="emergency-icon">🚨 🚑</div>
+            <h1>Emergency Doctor Support</h1>
+            <p>Immediate assistance for urgent cases. Book an appointment now.</p>
+        </div>
+
+        {% for doctor in doctors %}
+        <div class="doctor-card">
+            <div class="doctor-info">
+                <h2>Dr. {{ doctor.name }}</h2>
+                <p><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+                <p>📞 {{ doctor.contact_info }}</p>
+            </div>
+            <button class="book-btn" onclick="openModal('{{ doctor.id }}', '{{ doctor.name }}')">Book Now</button>
+        </div>
+        {% empty %}
+        <div style="text-align: center; color: #666;">
+            <p>No urgent care doctors available at the moment.</p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalDoctorName">Book Appointment</h2>
+            <form id="bookingForm" method="POST">
+                {% csrf_token %}
+                <label for="date_time">Select Time:</label><br><br>
+                <input type="datetime-local" name="date_time" required style="padding: 8px; width: 80%;"><br><br>
+                <button type="submit" class="book-btn">Confirm Booking</button>
+                <button type="button" class="book-btn" style="background: #ccc; color: #333;"
+                    onclick="closeModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal(doctorId, doctorName) {
+            document.getElementById('bookingModal').style.display = 'block';
+            document.getElementById('modalDoctorName').innerText = "Book with Dr. " + doctorName;
+            document.getElementById('bookingForm').action = "/book_appointment/" + doctorId + "/";
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+    </script>
+
+</body>
+
+</html>
