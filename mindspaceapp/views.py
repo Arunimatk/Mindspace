@@ -11,12 +11,18 @@ from django.db import IntegrityError
 def user_register(request):
     if request.method == "POST":
         try:
+            name = request.POST.get('name', '').strip()
+            password = request.POST.get('password', '').strip()
+            email = request.POST.get('email', '').strip()
+            age = request.POST.get('age', '').strip()
+            phone = request.POST.get('phone', '').strip()
+
             user = UserModel(
-                name=request.POST.get('name'),
-                password=request.POST.get('password'),
-                email=request.POST.get('email'),
-                age=request.POST.get('age'),
-                phone=request.POST.get('phone')
+                name=name,
+                password=password,
+                email=email,
+                age=age,
+                phone=phone
             )
             user.save()
             messages.success(request, "Registration successful! Please login.")
@@ -24,6 +30,7 @@ def user_register(request):
         except IntegrityError:
             messages.error(request, "Email already exists.")
         except Exception as e:
+            print(f"Register Error: {e}")
             messages.error(request, f"An error occurred: {str(e)}")
             
     return render(request, 'register.html')
@@ -31,19 +38,25 @@ def user_register(request):
 
 def user_login(request):
     if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
         try:
+            username = request.POST.get('username', '').strip()
+            password = request.POST.get('password', '').strip()
+            
             user = UserModel.objects.filter(name=username).first()
-            if user.password == password:
+            
+            if user and user.password == password:
                 request.session['user_id'] = user.id
                 request.session['username'] = user.name
-                return redirect('projectpart2')  # Redirect to your page
-            else:
-                messages.error(request, "Invalid username or password")
-        except UserModel.DoesNotExist:
+                return redirect('projectpart2')
+            
             messages.error(request, "Invalid username or password")
-        return redirect('login')
+            return redirect('login')
+            
+        except Exception as e:
+            print(f"Login Error: {e}")
+            messages.error(request, "A system error occurred during login. Please try again.")
+            return redirect('login')
+            
     return render(request, 'login.html')
 
 
