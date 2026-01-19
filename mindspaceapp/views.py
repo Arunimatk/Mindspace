@@ -47,7 +47,7 @@ def user_login(request):
             if user and user.password == password:
                 request.session['user_id'] = user.id
                 request.session['username'] = user.name
-                return redirect('pdashboard')
+                return redirect('projectpart2')
             
             messages.error(request, "Invalid username or password")
             return redirect('login')
@@ -65,7 +65,7 @@ def user_logout(request):
     return redirect('login')
 
 def projectpart2_view(request):
-    return redirect('pdashboard')
+    return render(request, 'projectpart2.html')
 
 
 def pdashboard_view(request):

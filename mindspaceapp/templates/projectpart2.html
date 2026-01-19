@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How are you feeling? - MindSpace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            color: #4a4a4a;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .mood-btn {
+            background: white;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+            color: #333;
+        }
+
+        .mood-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .emoji {
+            font-size: 3rem;
+        }
+
+        .label {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Specific Colors on Hover */
+        .mood-btn.happy:hover {
+            background: #ffd700;
+            color: white;
+        }
+
+        .mood-btn.sad:hover {
+            background: #87ceeb;
+            color: white;
+        }
+
+        .mood-btn.anxious:hover {
+            background: #ff7f50;
+            color: white;
+        }
+
+        .mood-btn.stressed:hover {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .mood-btn.calm:hover {
+            background: #98fb98;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Welcome Back</h1>
+        <p>Before we start, how are you feeling right now?</p>
+
+        <div class="mood-grid">
+            <a href="{% url 'pdashboard' %}?mood=Happy" class="mood-btn happy" onclick="selectMood('Happy')">
+                <span class="emoji">😊</span>
+                <span class="label">Happy</span>
+            </a>
+            <a href="{% url 'pdashboard' %}?mood=Sad" class="mood-btn sad" onclick="selectMood('Sad')">
+                <span class="emoji">😔</span>
+                <span class="label">Sad</span>
+            </a>
+            <a href="{% url 'pdashboard' %}?mood=Anxious" class="mood-btn anxious" onclick="selectMood('Anxious')">
+                <span class="emoji">😰</span>
+                <span class="label">Anxious</span>
+            </a>
+            <a href="{% url 'pdashboard' %}?mood=Stressed" class="mood-btn stressed" onclick="selectMood('Stressed')">
+                <span class="emoji">😫</span>
+                <span class="label">Stressed</span>
+            </a>
+            <a href="{% url 'pdashboard' %}?mood=Calm" class="mood-btn calm" onclick="selectMood('Calm')">
+                <span class="emoji">😌</span>
+                <span class="label">Calm</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function selectMood(mood) {
+            // Save to localStorage so dashboard can pick it up if needed
+            localStorage.setItem("selectedMood", mood);
+        }
+    </script>
+</body>
+
+</html>
